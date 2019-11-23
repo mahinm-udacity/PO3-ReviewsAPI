@@ -22,12 +22,16 @@ public class Review {
 
     private String reviewText;
 
+    public Review(String reviewText){
+        this.reviewText = reviewText;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-/*
+
     @OneToMany(
-            mappedBy = "comment",
+            mappedBy = "review",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -42,7 +46,7 @@ public class Review {
         comments.remove(comment);
         comment.setReview(this);
     }
-*/
+
 
 
 }

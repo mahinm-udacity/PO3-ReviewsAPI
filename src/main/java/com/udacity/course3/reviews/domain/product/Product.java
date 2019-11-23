@@ -19,9 +19,9 @@ public class Product {
     private Long id;
 
     String name;
-/*
+
     @OneToMany(
-            mappedBy = "review",
+            mappedBy = "product",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
@@ -36,6 +36,5 @@ public class Product {
         reviews.remove(review);
         review.setProduct(this);
     }
-    */
 
 }

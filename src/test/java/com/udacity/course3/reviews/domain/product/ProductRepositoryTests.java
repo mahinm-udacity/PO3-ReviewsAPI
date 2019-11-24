@@ -19,15 +19,15 @@ public class ProductRepositoryTests {
 
 
     @Test
-    public void injectedComponentsAreNotNull(){
+    public void injectedComponentsAreNotNull() {
         assertNotNull(productRepository);
     }
 
     @Test
-    public void testFindAllProducts(){
+    public void testFindAllProducts() {
         int expectedNumberOfProducts = 5;
-        for (int i = 0; i < expectedNumberOfProducts; i++){
-            productRepository.save(new Product("product" + String.valueOf(i)));
+        for (int i = 0; i < expectedNumberOfProducts; i++) {
+            productRepository.save(new Product("product" + i));
         }
         List<Product> products = productRepository.findAll();
         assertEquals(expectedNumberOfProducts, products.size());

@@ -18,20 +18,19 @@ import static org.junit.Assert.assertNotNull;
 @DataJpaTest
 public class ReviewRepositoryTests {
 
+    private static Product testProduct;
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
     private ProductRepository productRepository;
 
-    private static Product testProduct;
-
     @BeforeClass
-    public static void setup(){
+    public static void setup() {
         testProduct = new Product("test product");
     }
 
     @Test
-    public void injectedComponentsAreNotNull(){
+    public void injectedComponentsAreNotNull() {
         assertNotNull(productRepository);
         assertNotNull(reviewRepository);
     }
@@ -47,11 +46,11 @@ public class ReviewRepositoryTests {
     }
 
     @Test
-    public void testFindAllByProduct(){
+    public void testFindAllByProduct() {
         int expectedNumberOfReviews = 3;
         Product savedProduct = productRepository.save(testProduct);
-        for (int i = 0; i < expectedNumberOfReviews; i++){
-            reviewRepository.save(new Review(savedProduct,String.valueOf(i)));
+        for (int i = 0; i < expectedNumberOfReviews; i++) {
+            reviewRepository.save(new Review(savedProduct, String.valueOf(i)));
         }
         List<Review> reviews = reviewRepository.findAllByProduct(savedProduct);
         assertEquals(expectedNumberOfReviews, reviews.size());

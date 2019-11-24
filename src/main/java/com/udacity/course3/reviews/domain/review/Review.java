@@ -2,14 +2,15 @@ package com.udacity.course3.reviews.domain.review;
 
 import com.udacity.course3.reviews.domain.product.Product;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Getter
+@NoArgsConstructor
 public class Review {
 
     @Id
@@ -36,5 +37,4 @@ public class Review {
     public void setProduct(Product product) {
         this.product = product;
     }
-
 }

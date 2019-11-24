@@ -2,6 +2,7 @@ package com.udacity.course3.reviews.domain.comment;
 
 import com.udacity.course3.reviews.domain.review.Review;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Comment {
 
     @Id

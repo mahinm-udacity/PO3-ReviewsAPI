@@ -9,16 +9,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class ControllerUtilities {
 
-    static protected Product findEntity(ProductRepository repository, Integer id){
+    static protected Product findEntity(ProductRepository repository, Integer id) {
         return repository.findById(Long.valueOf(id))
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Could not find entity with id " + id));
 
     }
 
-    static protected Review findEntity(ReviewRepository repository, Integer id){
+    static protected Review findEntity(ReviewRepository repository, Integer id) {
         return repository.findById(Long.valueOf(id))
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Could not find entity with id " + id));
     }
 

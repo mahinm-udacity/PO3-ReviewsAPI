@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class CommentsRepositoryTests {
+    private static Product testProduct;
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
@@ -26,24 +27,22 @@ public class CommentsRepositoryTests {
     @Autowired
     private ProductRepository productRepository;
 
-    @Test
-    public void injectedComponentsAreNotNull(){
-        assertNotNull(commentRepository);
-    }
-
-    private static Product testProduct;
-
     @BeforeClass
-    public static void setup(){
+    public static void setup() {
         testProduct = new Product("test product");
     }
 
     @Test
-    public void testFindByCommentId(){
+    public void injectedComponentsAreNotNull() {
+        assertNotNull(commentRepository);
+    }
+
+    @Test
+    public void testFindByCommentId() {
         String expectedCommentText = "my comment";
         Review review = new Review(productRepository.save(testProduct), "my review");
         reviewRepository.save(review);
-        Comment savedComment = commentRepository.save(new Comment(review,expectedCommentText));
+        Comment savedComment = commentRepository.save(new Comment(review, expectedCommentText));
         Comment retrievedComment = commentRepository.findById(savedComment.getId())
                 .orElse(null);
         assertNotNull(retrievedComment);
@@ -51,11 +50,11 @@ public class CommentsRepositoryTests {
     }
 
     @Test
-    public void testFindAllCommentsByReview(){
+    public void testFindAllCommentsByReview() {
         Review review = new Review(productRepository.save(testProduct), "my review");
         reviewRepository.save(review);
         int expectedNumberOfComments = 4;
-        for (int i = 0; i < expectedNumberOfComments; i++){
+        for (int i = 0; i < expectedNumberOfComments; i++) {
             commentRepository.save(new Comment(review, String.valueOf(i)));
         }
         List<Comment> comments = commentRepository.findAllByReview(review);

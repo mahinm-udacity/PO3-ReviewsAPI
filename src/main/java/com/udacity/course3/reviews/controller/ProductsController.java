@@ -6,12 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Spring REST controller for working with product entity.
@@ -43,13 +39,7 @@ public class ProductsController {
      */
     @RequestMapping(value = "/{id}")
     public ResponseEntity<Product>  findById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(findProduct(id));
-    }
-
-    private Product findProduct(Integer productId){
-        return productRepository.findById(Long.valueOf(productId))
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Could not find product with id " + productId));
+        return ResponseEntity.ok(ControllerUtilities.findEntity(productRepository, id));
     }
 
     /**

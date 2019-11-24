@@ -1,9 +1,12 @@
 package com.udacity.course3.reviews.controller;
 
-import org.springframework.http.HttpStatus;
+import com.udacity.course3.reviews.domain.product.Product;
+import com.udacity.course3.reviews.domain.product.ProductRepository;
+import com.udacity.course3.reviews.domain.review.Review;
+import com.udacity.course3.reviews.domain.review.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
@@ -13,7 +16,11 @@ import java.util.List;
 @RestController
 public class ReviewsController {
 
-    // TODO: Wire JPA repositories here
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private ProductRepository productRepository;
+
 
     /**
      * Creates a review for a product.
@@ -27,8 +34,10 @@ public class ReviewsController {
      * @return The created review or 404 if product id is not found.
      */
     @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId,
+                                                    @RequestBody Review review) {
+        review.setProduct(ControllerUtilities.findEntity(productRepository, productId));
+        return ResponseEntity.ok(reviewRepository.save(review));
     }
 
     /**
@@ -39,6 +48,7 @@ public class ReviewsController {
      */
     @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
     public ResponseEntity<List<?>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+        return ResponseEntity.ok(reviewRepository.findAllByProduct(
+                ControllerUtilities.findEntity(productRepository, productId)));
     }
 }

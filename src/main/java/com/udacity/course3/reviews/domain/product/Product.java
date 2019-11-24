@@ -1,40 +1,26 @@
 package com.udacity.course3.reviews.domain.product;
 
-import com.udacity.course3.reviews.domain.review.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Product {
+    String name;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String name;
-
-    @OneToMany(
-            mappedBy = "product",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Review> reviews = new ArrayList<>();
-
-    public void addReview(Review review){
-        reviews.add(review);
-        review.setProduct(this);
+    public Product(String name) {
+        this.name = name;
     }
-
-    public void removeReview(Review review){
-        reviews.remove(review);
-        review.setProduct(this);
-    }
-
 }

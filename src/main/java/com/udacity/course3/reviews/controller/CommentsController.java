@@ -1,12 +1,11 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.domain.comment.Comment;
 import com.udacity.course3.reviews.domain.comment.CommentRepository;
 import com.udacity.course3.reviews.domain.review.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
@@ -17,11 +16,15 @@ import java.util.List;
 @RequestMapping("/comments")
 public class CommentsController {
 
-    // TODO: Wire needed JPA repositories here
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     /**
      * Creates a comment for a review.
-     *
+     * <p>
      * 1. Add argument for comment entity. Use {@link RequestBody} annotation.
      * 2. Check for existence of review.
      * 3. If review not found, return NOT_FOUND.
@@ -29,24 +32,16 @@ public class CommentsController {
      *
      * @param reviewId The id of the review.
      */
-    private final CommentRepository commentRepository;
-    private final ReviewRepository reviewRepository;
-
-    public CommentsController(CommentRepository commentRepository,
-                              ReviewRepository reviewRepository) {
-        this.commentRepository = commentRepository;
-        this.reviewRepository = reviewRepository;
-    }
-
-
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createCommentForReview(@PathVariable("reviewId") Integer reviewId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<?> createCommentForReview(@PathVariable("reviewId") Integer reviewId,
+                                                    @RequestBody Comment comment) {
+        comment.setReview(ControllerUtilities.findEntity(reviewRepository, reviewId));
+        return ResponseEntity.ok(commentRepository.save(comment));
     }
 
     /**
      * List comments for a review.
-     *
+     * <p>
      * 2. Check for existence of review.
      * 3. If review not found, return NOT_FOUND.
      * 4. If found, return list of comments.
@@ -54,7 +49,9 @@ public class CommentsController {
      * @param reviewId The id of the review.
      */
     @RequestMapping(value = "/reviews/{reviewId}", method = RequestMethod.GET)
-    public List<?> listCommentsForReview(@PathVariable("reviewId") Integer reviewId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<List<?>> listCommentsForReview(@PathVariable("reviewId") Integer reviewId) {
+        return ResponseEntity.ok(commentRepository.findAllByReview(
+                ControllerUtilities.findEntity(reviewRepository, reviewId)));
+
     }
 }

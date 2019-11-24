@@ -2,17 +2,14 @@ package com.udacity.course3.reviews.domain.review;
 
 import com.udacity.course3.reviews.domain.product.Product;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
 public class Review {
 
     @Id
@@ -20,15 +17,24 @@ public class Review {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 10000)
     private String reviewText;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    public Review(Product product, String reviewText){
+    public Review(Product product, String reviewText) {
         this.product = product;
         this.reviewText = reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 }

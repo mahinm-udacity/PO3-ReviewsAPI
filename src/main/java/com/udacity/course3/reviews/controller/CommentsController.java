@@ -42,9 +42,9 @@ public class CommentsController {
     /**
      * List comments for a review.
      * <p>
-     * 2. Check for existence of review.
-     * 3. If review not found, return NOT_FOUND.
-     * 4. If found, return list of comments.
+     * 1. Check for existence of review.
+     * 2. If review not found, return NOT_FOUND.
+     * 3. If found, return list of comments.
      *
      * @param reviewId The id of the review.
      */

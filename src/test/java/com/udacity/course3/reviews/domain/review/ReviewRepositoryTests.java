@@ -39,9 +39,8 @@ public class ReviewRepositoryTests {
     @Test
     public void testFindByReviewId() {
         String expectedReviewText = "my review";
-        Review review = new Review(productRepository.save(testProduct), expectedReviewText);
-        Review returnedReview = reviewRepository.save(review);
-        Review retrievedReview = reviewRepository.findById(returnedReview.getId())
+        Review savedReview = reviewRepository.save(new Review(productRepository.save(testProduct), expectedReviewText));
+        Review retrievedReview = reviewRepository.findById(savedReview.getId())
                 .orElse(null);
         assertNotNull(retrievedReview);
         assertEquals(retrievedReview.getReviewText(), expectedReviewText);
@@ -50,10 +49,11 @@ public class ReviewRepositoryTests {
     @Test
     public void testFindAllByProduct(){
         int expectedNumberOfReviews = 3;
+        Product savedProduct = productRepository.save(testProduct);
         for (int i = 0; i < expectedNumberOfReviews; i++){
-            reviewRepository.save(new Review(productRepository.save(testProduct),String.valueOf(i)));
+            reviewRepository.save(new Review(savedProduct,String.valueOf(i)));
         }
-        List<Review> reviews = reviewRepository.findAllByProduct(testProduct);
+        List<Review> reviews = reviewRepository.findAllByProduct(savedProduct);
         assertEquals(expectedNumberOfReviews, reviews.size());
     }
 }

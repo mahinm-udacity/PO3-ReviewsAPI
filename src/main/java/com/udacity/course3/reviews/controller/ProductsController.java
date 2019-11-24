@@ -21,7 +21,7 @@ public class ProductsController {
 
     /**
      * Creates a product.
-     *
+     * <p>
      * 1. Accept product as argument. Use {@link RequestBody} annotation.
      * 2. Save product.
      */
@@ -38,7 +38,7 @@ public class ProductsController {
      * @return The product if found, or a 404 not found.
      */
     @RequestMapping(value = "/{id}")
-    public ResponseEntity<Product>  findById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Product> findById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(ControllerUtilities.findEntity(productRepository, id));
     }
 
